@@ -12,4 +12,4 @@ socket.onclose = () => {
   console.log("websocket disconnected");
 };
 
-export default socket;
+// export default socket;

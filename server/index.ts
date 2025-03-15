@@ -1,20 +1,34 @@
 import { configDotenv } from "dotenv";
-import { WebSocketServer } from "ws";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 configDotenv();
 //creating web socket server
-const PORT = parseInt(process.env.PORT || "3000", 10);
 
-const server = new WebSocketServer({ port: PORT });
+const PORT = process.env.PORT || 3000;
 
-server.on("connection", (socket) => {
-  socket.on("message", (message) => {
-    const b = Buffer.from(message.toString());
-    console.log(`Received: ${b}`);
-    socket.send(message);
+const httpServer = createServer();
+
+const io = new Server(httpServer, {
+  cors: {
+    origin:
+      process.env.NODE_ENV === "production" ? false : ["http://localhost:5173"],
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User ${socket.id} connected`);
+  socket.on("message", (data) => {
+    console.log(socket.id.substring(0, 5),data);
+    io.emit("message", `${socket.id.substring(0, 5)} ${data}`);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`User ${socket.id} disconnected`);
   });
 });
 
-server.on("listening", () => {
-  console.log(`Websocket server is running on ws://localhost:${PORT}`);
+httpServer.listen(PORT, () => {
+  console.log(`Websocket server is running on http://localhost:${PORT}`);
 });

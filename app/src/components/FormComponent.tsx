@@ -6,11 +6,10 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  // FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import socket from "@src/services/ws";
+import io from "@src/services/io";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -37,10 +36,11 @@ const FormComponent = () => {
   const onSubmit = (values: FormFieldType) => {
     try {
       if (values?.message) {
-        socket.send(values.message);
+        io.emit("message", values.message);
         form.reset();
+
+        form.setFocus("message");
       }
-      form.setFocus("message");
     } catch (error) {
       // toast.error(error);
       console.error(error);
@@ -51,13 +51,13 @@ const FormComponent = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="sticky bottom-0 flex justify-center  items-center space-y-8 h-25 bg-[whitesmoke] w-full drop-shadow-lg"
+        className="sticky bottom-0 flex h-25 w-full items-center justify-center space-y-8 bg-[whitesmoke] drop-shadow-lg"
       >
         <FormField
           control={form.control}
           name="message"
           render={({ field }) => (
-            <FormItem className="flex w-3/4 items-center ">
+            <FormItem className="flex w-3/4 items-center">
               <FormLabel className="">Message</FormLabel>
               <FormControl>
                 <Input

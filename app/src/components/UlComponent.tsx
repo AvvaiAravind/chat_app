@@ -1,24 +1,16 @@
-import socket from "@src/services/ws";
+import socket from "@src/services/io";
 import { useEffect, useState } from "react";
 
 const UlComponent = () => {
   const [messages, setMessages] = useState<string[]>([]);
 
   useEffect(() => {
-    const handleMessage = async (event: MessageEvent) => {
-      try {
-        if (event.data instanceof Blob) {
-          console.log(event.data);
-          const newMessage = await event.data.text();
-          setMessages((prev) => [newMessage, ...prev]);
-        }
-      } catch (error) {
-        console.error(error);
-      }
+    const handleMessage = (message: string) => {
+      setMessages((prev) => [message, ...prev]);
     };
-    socket.onmessage = handleMessage;
+    socket.on("message", handleMessage);
     return () => {
-      socket.onmessage = null;
+      socket.off("message", handleMessage);
     };
   }, []);
 
@@ -27,7 +19,7 @@ const UlComponent = () => {
   }, [messages]);
 
   return (
-    <ul className="scrollbar-thin scrollbar-thumb-rounded-full mx-auto flex w-3/4 h-[calc(100%-7.5rem)] flex-grow flex-col-reverse overflow-y-auto">
+    <ul className="scrollbar-thumb-rounded-full mx-auto scrollbar-thin flex h-[calc(100%-7.5rem)] w-3/4 flex-grow flex-col-reverse overflow-y-auto">
       {messages.length > 0 &&
         messages.map((msg, index) => (
           <li key={index} className="">
