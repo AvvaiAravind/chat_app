@@ -15,7 +15,7 @@ socket.on("message", (data: string) => {
 });
 
 socket.on("activity", (name: string) => {
-  console.log("Activity:", `${name} is typing...`);
+  console.log("Activity:", `${name}`);
 });
 
 socket.on("disconnect", (reason: string) => {

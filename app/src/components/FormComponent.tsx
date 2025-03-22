@@ -9,7 +9,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import socket from "@src/services/io";
-import io from "@src/services/io";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -24,7 +23,8 @@ const FormSchema = z.object({
 type FormFieldType = z.infer<typeof FormSchema>;
 
 const FormComponent = () => {
-  let typingTimout: NodeJS.Timeout;
+  let typingTimeout: NodeJS.Timeout;
+  let isTyping = false;
 
   const form = useForm<FormFieldType>({
     resolver: zodResolver(FormSchema),
@@ -47,9 +47,16 @@ const FormComponent = () => {
   };
 
   const handleActivity = () => {
-    socket.emit("activity", socket.id.substring(0,5));
-    clearTimeout(typingTimout);
-    typingTimout = setTimeout(() => io.emit("activity", ""), 2000);
+    if (!isTyping) {
+      socket.emit("activity", socket.id.substring(0, 5));
+      isTyping = true;
+    }
+
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      socket.emit("activity", "");
+      isTyping = false;
+    }, 3000);
   };
 
   return (
@@ -73,7 +80,7 @@ const FormComponent = () => {
                   value={field.value}
                   onChange={(e) => {
                     field.onChange(e);
-                    handleActivity(); 
+                    handleActivity();
                   }}
                 />
               </FormControl>

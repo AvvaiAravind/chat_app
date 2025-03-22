@@ -1,5 +1,5 @@
 import { configDotenv } from "dotenv";
-import { createServer } from "http";
+import express from "express";
 import { Server } from "socket.io";
 
 configDotenv();
@@ -7,9 +7,14 @@ configDotenv();
 
 const PORT = process.env.PORT || 3000;
 
-const httpServer = createServer();
+const app = express();
 
-const io = new Server(httpServer, {
+const expressServer = app.listen(PORT, () => {
+  console.log(`Websocket server is running on http://localhost:${PORT}`);
+});
+
+
+const io = new Server(expressServer, {
   cors: {
     origin:
       process.env.NODE_ENV === "production" ? false : ["http://localhost:5173"],
@@ -36,7 +41,9 @@ io.on("connection", (socket) => {
 
   // listening for activity
   socket.on("activity", (name) => {
-    socket.broadcast.emit("activity", `${name} is typing...`);
+    if (name) {
+      socket.broadcast.emit("activity", `${name} is typing`);
+    }
   });
 
   // listening  for disconnection
@@ -54,6 +61,3 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(PORT, () => {
-  console.log(`Websocket server is running on http://localhost:${PORT}`);
-});
