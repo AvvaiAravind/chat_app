@@ -16,12 +16,12 @@ const FormSchema = z.object({
   name: z
     .string()
     .min(1)
-    .max(8)
+    .max(10)
     .refine((value) => value.trim().length > 0),
   chatRoom: z
     .string()
     .min(1)
-    .max(8)
+    .max(10)
     .refine((value) => value.trim().length > 0),
 });
 
@@ -100,7 +100,6 @@ const InfoForm = ({ nameRef, roomRef }: InfoFormProps) => {
                   placeholder="Chat Room to join"
                   autoFocus
                   value={field.value}
-                  size={10}
                   onChange={(e) => {
                     field.onChange(e);
                   }}
