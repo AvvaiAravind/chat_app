@@ -2,7 +2,7 @@ import io from "socket.io-client";
 
 const socket = io("http://localhost:3000");
 
-socket.on("connect", () => {
+/* socket.on("connect", () => {
   console.log("websocket connected", socket.id);
 });
 
@@ -20,6 +20,6 @@ socket.on("activity", (name: string) => {
 
 socket.on("disconnect", (reason: string) => {
   console.log("websocket disconnected", reason);
-});
+}); */
 
 export default socket;

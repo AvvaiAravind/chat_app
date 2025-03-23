@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import socket from "@src/services/io";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -22,7 +23,12 @@ const FormSchema = z.object({
 
 type FormFieldType = z.infer<typeof FormSchema>;
 
-const FormComponent = () => {
+type FormComponentProps = {
+  nameRef: React.RefObject<HTMLInputElement | null>;
+  roomRef: React.RefObject<HTMLInputElement | null>;
+  setUser: React.Dispatch<React.SetStateAction<string>>;
+};
+const FormComponent = ({ nameRef, roomRef, setUser }: FormComponentProps) => {
   let typingTimeout: NodeJS.Timeout;
   let isTyping = false;
 
@@ -35,11 +41,22 @@ const FormComponent = () => {
 
   const onSubmit = (values: FormFieldType) => {
     try {
-      if (values?.message) {
-        socket.emit("message", values.message);
+      if (
+        nameRef?.current?.value &&
+        roomRef?.current?.value &&
+        values?.message
+      ) {
+        const msg = values?.message;
+        socket.emit("message", {
+          id: socket.id,
+          message: msg,
+          name: nameRef.current.value,
+        });
         form.reset();
 
         form.setFocus("message");
+      } else {
+        alert("Name & Chat Room are must");
       }
     } catch (error) {
       console.error(error);
@@ -47,8 +64,9 @@ const FormComponent = () => {
   };
 
   const handleActivity = () => {
-    if (!isTyping) {
-      socket.emit("activity", socket.id.substring(0, 5));
+    if (!isTyping && nameRef?.current?.value) {
+      const name = nameRef.current.value;
+      socket.emit("activity", name);
       isTyping = true;
     }
 
@@ -59,11 +77,15 @@ const FormComponent = () => {
     }, 3000);
   };
 
+  useEffect(() => {
+    setUser(socket.id);
+  }, [socket.id]);
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="sticky bottom-0 flex h-25 w-full items-center justify-center space-y-8 bg-[whitesmoke] drop-shadow-lg"
+        className="sticky bottom-0 my-2 flex h-15 w-full items-center justify-center bg-[whitesmoke] shadow-[0_-8px_10px_-1px_rgba(0,0,0,0.2)]"
       >
         <FormField
           control={form.control}
@@ -88,7 +110,7 @@ const FormComponent = () => {
           )}
         />
 
-        <Button type="submit" className="mb-7 self-center">
+        <Button type="submit" className="self-center">
           Send
         </Button>
       </form>

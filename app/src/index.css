@@ -19,7 +19,7 @@
 
 @layer base {
   html {
-    @apply font-inter antialiased font-synthesis text-rendering;
+    @apply font-inter antialiased font-synthesis text-rendering scroll-smooth;
   }
 
   body {
