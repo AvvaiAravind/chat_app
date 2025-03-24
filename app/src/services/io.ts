@@ -2,17 +2,24 @@ import io from "socket.io-client";
 
 const socket = io("http://localhost:3000");
 
-socket.on("connect", () => {
-  console.log("websocket connected");
+/* socket.on("connect", () => {
+  console.log("websocket connected", socket.id);
 });
 
-socket.on("message",(data: any) => {
+socket.on("notification", (data: string) => {
+  console.log("Notification", data);
+});
+
+socket.on("message", (data: string) => {
   console.log("Message", data);
 });
 
-socket.on("disconnected",() => {
-  console.log("websocket disconnected");
+socket.on("activity", (name: string) => {
+  console.log("Activity:", `${name}`);
 });
 
+socket.on("disconnect", (reason: string) => {
+  console.log("websocket disconnected", reason);
+}); */
 
 export default socket;
