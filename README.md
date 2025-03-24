@@ -50,7 +50,7 @@ bashCopy# Install frontend dependencies
 cd app
 npm install
 
-# Install backend dependencies
+## Install backend dependencies
 ```
 cd ../server
 npm install
