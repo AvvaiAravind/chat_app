@@ -18,26 +18,26 @@ Form validation using Zod and React Hook Form with Zod Resolver
 ### Tech Stack
 #### Frontend
 
-React
-TypeScript
-Vite
-ShadCN UI
+`React`
+`TypeScript`
+`Vite`
+`ShadCN UI`
 
 #### Backend
 
-Express
-TypeScript
-Socket.IO
+`Express`
+`TypeScript`
+`Socket.IO`
 
 #### State Management
 
-React Hooks
-React useForm
+`React Hooks`
+`React useForm`
 
 #### Validation
 
-Zod
-Zod Resolver
+`Zod`
+`Zod Resolver`
 
 ## Installation
 
