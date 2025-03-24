@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import io from "@src/services/io";
+import socket from "@src/services/io";
+import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -23,7 +24,14 @@ const FormSchema = z.object({
 
 type FormFieldType = z.infer<typeof FormSchema>;
 
-const FormComponent = () => {
+type FormComponentProps = {
+  setIsActivity: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const FormComponent = ({ setIsActivity }: FormComponentProps) => {
+  let typingTimeout: NodeJS.Timeout | null = null;
+
+  const [msg, setMsg] = useState<string>("")
   const form = useForm<FormFieldType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -31,12 +39,12 @@ const FormComponent = () => {
     },
   });
 
-  // const message = form.formState.isValid;
+  const message = form.formState.isValid;
 
   const onSubmit = (values: FormFieldType) => {
     try {
       if (values?.message) {
-        io.emit("message", values.message);
+        socket.emit("message", values.message);
         form.reset();
 
         form.setFocus("message");
@@ -47,24 +55,38 @@ const FormComponent = () => {
     }
   };
 
+  const handleActivity = (e: ChangeEvent<HTMLInputElement>) => {
+    setMsg(e.target.value)
+    setIsActivity(true);
+    socket.emit("acitivity", socket.id?.substring(0, 5));
+
+    if (typingTimeout) clearTimeout(typingTimeout);
+
+    typingTimeout = setTimeout(() => {
+      setIsActivity(false);
+    }, 1000);
+  };
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="sticky bottom-0 flex h-25 w-full items-center justify-center space-y-8 bg-[whitesmoke] drop-shadow-lg"
+        className="sticky bottom-0 flex h-25 w-full justify-center space-y-8 bg-[whitesmoke] drop-shadow-lg"
       >
         <FormField
           control={form.control}
           name="message"
           render={({ field }) => (
             <FormItem className="flex w-3/4 items-center">
-              <FormLabel className="">Message</FormLabel>
-              <FormControl>
+              <FormLabel className="self-center pt-8">Message</FormLabel>
+              <FormControl className="self-end">
                 <Input
                   {...field}
                   className="w-3/4 border-black"
                   placeholder="Your Message"
                   autoFocus
+                  onChange={handleActivity}
+                  value={msg}
                 />
               </FormControl>
               {/* <FormDescription className="">Message</FormDescription> */}
@@ -72,11 +94,11 @@ const FormComponent = () => {
             </FormItem>
           )}
         />
-        {/* {message && ( */}
-        <Button type="submit" className="self-center">
-          Send
-        </Button>
-        {/* )} */}
+        {message && (
+          <Button type="submit" className="self-center">
+            Send
+          </Button>
+        )}
       </form>
     </Form>
   );
