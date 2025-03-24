@@ -41,7 +41,7 @@ Form validation using Zod and React Hook Form with Zod Resolver
 ### Clone the repository:
 
 ```
- https://github.com/AvvaiAravind/chat_app.git
+https://github.com/AvvaiAravind/chat_app.git
 cd chat_app
 ```
 
@@ -56,21 +56,24 @@ npm install
 cd ../server
 npm install
 
-Start the backend server:
-bashCopycd server
-npm run dev
+# Start the backend server:
+cd server
+npm run serve
 
-Start the frontend:
-bashCopycd ../app
+# Start the frontend:
+cd ../app
 npm run dev
 
 ```
 
 The app will be available at http://localhost:5173
-Environment Variables
+
+### Environment Variables
 Create a .env file in the server directory with the following variables:
-CopyPORT=3000
-Usage
+```
+PORT=3000
+```
+### Usage
 
 Open the app in multiple tabs or devices
 Enter a username and join a room
