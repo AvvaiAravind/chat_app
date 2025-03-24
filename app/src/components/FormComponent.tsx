@@ -78,7 +78,7 @@ const FormComponent = ({ nameRef, roomRef, setUser }: FormComponentProps) => {
   };
 
   useEffect(() => {
-    setUser(socket.id);
+    setUser(socket.id as string);
   }, [socket.id]);
 
   return (
