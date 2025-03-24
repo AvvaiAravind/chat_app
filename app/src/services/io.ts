@@ -1,6 +1,8 @@
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3000");
+const socket = io("http://localhost:3000", {
+  transports: ["websocket", "polling"],
+});
 
 /* socket.on("connect", () => {
   console.log("websocket connected", socket.id);

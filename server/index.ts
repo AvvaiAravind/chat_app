@@ -40,15 +40,18 @@ const io = new Server(expressServer, {
         : ["http://localhost:5173", "http://192.168.0.112:5173/"],
     methods: ["GET", "POST"],
   },
+  transports: ["websocket", "polling"],
 });
+console.log(io);
 
 const emitWithTimeout = (evnt: string, msg: string | null, timeout = 6000) => {
   io.emit(evnt, msg);
-  setTimeout(()=> io.emit(evnt, null), timeout)
+  setTimeout(() => io.emit(evnt, null), timeout);
 };
 
 io.on("connection", (socket) => {
   console.log(`User ${socket.id} connected`);
+  console.log(socket.conn.transport.name);
 
   // welcome for the user
   socket.emit("notification", "Welcome to the Chat App");
@@ -110,10 +113,9 @@ io.on("connection", (socket) => {
   // handle chat message
 
   socket.on("message", ({ id, message, name }) => {
-    
     if (!message) {
-      console.log(message) 
-      return
+      console.log(message);
+      return;
     }
     const room = getUser(socket.id)?.room;
     if (room) {
@@ -122,7 +124,7 @@ io.on("connection", (socket) => {
   });
 
   // listening for activity
-  socket.on("activity", ( name ) => {
+  socket.on("activity", (name) => {
     const room = getUser(socket.id)?.room;
     if (!name) {
       console.log(name);
