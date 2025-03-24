@@ -38,8 +38,8 @@ Form validation using Zod and React Hook Form with Zod Resolver
 
 ## Installation
 
-Clone the repository:
-bashCopygit clone https://github.com/your-repo/chat-app.git
+### Clone the repository:
+ https://github.com/AvvaiAravind/chat_app.git
 cd chat_app
 
 Install dependencies for both frontend and backend:
