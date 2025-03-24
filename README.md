@@ -1,11 +1,14 @@
 # Real-Time Chat Application
+
 A modern real-time chat application built using React with TypeScript on the frontend and Express with TypeScript on the backend. It uses Socket.IO for real-time communication.
 Folder Structure
+
 ```
 chat_app/
 ├── app/    # Frontend (React + TypeScript)
 └── server/ # Backend (Express + TypeScript)
 ```
+
 ## Features
 
 Real-time messaging using WebSockets
@@ -16,28 +19,22 @@ Room-based chat functionality
 Form validation using Zod and React Hook Form with Zod Resolver
 
 ### Tech Stack
+
 #### Frontend
 
-`React`
-`TypeScript`
-`Vite`
-`ShadCN UI`
+`React` `TypeScript` `Vite` `ShadCN UI`
 
 #### Backend
 
-`Express`
-`TypeScript`
-`Socket.IO`
+`Express` `TypeScript` `Socket.IO`
 
 #### State Management
 
-`React Hooks`
-`React useForm`
+`React Hooks` `React useForm`
 
 #### Validation
 
-`Zod`
-`Zod Resolver`
+`Zod` `Zod Resolver`
 
 ## Installation
 
@@ -51,6 +48,7 @@ cd app
 npm install
 
 ## Install backend dependencies
+
 ```
 cd ../server
 npm install
@@ -65,7 +63,6 @@ npm run dev
 
 ```
 
-
 The app will be available at http://localhost:5173
 Environment Variables
 Create a .env file in the server directory with the following variables:
@@ -77,6 +74,9 @@ Enter a username and join a room
 Start chatting in real-time!
 
 ### Inspiration
+
 This project was inspired by a tutorial from Dave Gray. While the tutorial used CommonJS, this implementation uses modern ES modules and React.
+
 ### License
+
 This project is licensed under the MIT License.
