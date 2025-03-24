@@ -1,7 +1,7 @@
 import { configDotenv } from "dotenv";
 import express from "express";
 import { Server } from "socket.io";
-import { UsersStateType } from "./types/types";
+import { UsersStateType } from "./types/types.js";
 import {
   activeUser,
   buildMsg,
@@ -9,7 +9,7 @@ import {
   getUser,
   getUsersInRoom,
   userLeavesApp,
-} from "./utils/utils";
+} from "./utils/utils.js";
 
 configDotenv();
 //creating web socket server
@@ -42,12 +42,7 @@ const io = new Server(expressServer, {
   },
   transports: ["websocket", "polling"],
 });
-console.log(io);
 
-const emitWithTimeout = (evnt: string, msg: string | null, timeout = 6000) => {
-  io.emit(evnt, msg);
-  setTimeout(() => io.emit(evnt, null), timeout);
-};
 
 io.on("connection", (socket) => {
   console.log(`User ${socket.id} connected`);

@@ -1,4 +1,4 @@
-import { UsersState } from "..";
+import { UsersState } from "../index.js";
 
 export const buildMsg = (
   id: string,

@@ -1,16 +1,9 @@
 import io from "socket.io-client";
 
-const getBaseUrl = () => {
-  let URL = "";
-  if (import.meta.env.MODE === "production") {
-    console.log(import.meta.env.MODE);
-    URL = import.meta.env.VITE_SERVER_URL;
-  }
-  console.log(URL, " URl");
-  return URL;
-};
 
-const serverUrl = getBaseUrl();
+
+const serverUrl = import.meta.env.VITE_SERVER_URL
+console.log(serverUrl);
 const socket = io(serverUrl, {
   transports: ["websocket", "polling"],
 });
