@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
   // welcome for the user
   socket.emit("notification", "Welcome to the Chat App");
 
-  io.emit("roomList", {
+  socket.emit("roomList", {
     rooms: getAllActiveRoom(),
   });
 
@@ -80,6 +80,10 @@ io.on("connection", (socket) => {
 
     io.to(user.room).emit("userList", {
       users: getUsersInRoom(user.room),
+    });
+
+    io.emit("roomList", {
+      rooms: getAllActiveRoom(),
     });
   });
 
