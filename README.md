@@ -22,7 +22,7 @@ Form validation using Zod and React Hook Form with Zod Resolver
 
 #### Frontend
 
-`React` `TypeScript` `Vite` `ShadCN UI`
+`React` `TypeScript` `Vite` `ShadCN UI` `tailwindcss v4`
 
 #### Backend
 
