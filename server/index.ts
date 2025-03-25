@@ -45,8 +45,7 @@ const io = new Server(expressServer, {
 
 
 io.on("connection", (socket) => {
-  console.log(`User ${socket.id} connected`);
-  console.log(socket.conn.transport.name);
+ 
 
   // welcome for the user
   socket.emit("notification", "Welcome to the Chat App");
@@ -98,7 +97,6 @@ io.on("connection", (socket) => {
         users: getUsersInRoom(user.room),
       });
     }
-    console.log(`User ${socket.id} disconnected`);
     socket.broadcast.emit(
       "message",
       `${socket.id.substring(0, 5)} disconnected`
@@ -109,7 +107,6 @@ io.on("connection", (socket) => {
 
   socket.on("message", ({ id, message, name }) => {
     if (!message) {
-      console.log(message);
       return;
     }
     const room = getUser(socket.id)?.room;
@@ -122,7 +119,6 @@ io.on("connection", (socket) => {
   socket.on("activity", (name) => {
     const room = getUser(socket.id)?.room;
     if (!name) {
-      console.log(name);
       return;
     }
     if (room) {
