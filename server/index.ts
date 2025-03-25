@@ -43,12 +43,13 @@ const io = new Server(expressServer, {
   transports: ["websocket", "polling"],
 });
 
-
 io.on("connection", (socket) => {
- 
-
   // welcome for the user
   socket.emit("notification", "Welcome to the Chat App");
+
+  io.emit("roomList", {
+    rooms: getAllActiveRoom(),
+  });
 
   socket.on("enterRoom", ({ name, room }) => {
     // leave previous room
@@ -79,10 +80,6 @@ io.on("connection", (socket) => {
 
     io.to(user.room).emit("userList", {
       users: getUsersInRoom(user.room),
-    });
-
-    io.emit("roomList", {
-      rooms: getAllActiveRoom(),
     });
   });
 

@@ -16,6 +16,8 @@ export const buildMsg = (
       hour: "numeric",
       minute: "numeric",
       second: "numeric",
+      hour12: true,
+      timeZone: "Asia/Kolkata",
     }).format(new Date()),
   };
 };

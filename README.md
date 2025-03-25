@@ -66,7 +66,7 @@ npm run dev
 
 ```
 
-The app will be available at http://localhost:5173
+The app will be available at https://chat-app-frontend-2ogv.onrender.com/
 
 ### Environment Variables
 Create a .env file in the server directory with the following variables:
