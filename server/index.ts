@@ -98,10 +98,7 @@ io.on("connection", (socket) => {
         users: getUsersInRoom(user.room),
       });
     }
-    socket.broadcast.emit(
-      "message",
-      `${socket.id.substring(0, 5)} disconnected`
-    );
+
   });
 
   // handle chat message
